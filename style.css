@@ -1,3 +1,9 @@
 .text-transform{
    text-decoration: line-through;
 }
+
+.list-group li{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}

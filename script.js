@@ -6,9 +6,13 @@ const toDoListArr = JSON.parse(localStorage.getItem("todoList")) || [];
 const createLi = (obj) => {
   const li = document.createElement("li");
   li.setAttribute("data-id", obj.id);
-
+  li.setAttribute("class", "list-group-item");
   li.innerHTML = ` 
-   ${obj.text}  <input class="checkbox" type="checkbox">  <button class="remove">Remove</button>
+   ${obj.text} 
+   <div class="d-flex align-items-center">
+   <input class="checkbox form-check-input mx-2" type="checkbox" />
+   <button class="remove btn btn-danger">Remove</button>
+   </div>
     `;
   console.log(obj);
   toDoList.append(li);
@@ -17,19 +21,19 @@ const createLi = (obj) => {
 const checkListener = (lastToDoItem) => {
   const checkbox = lastToDoItem.querySelector(".checkbox");
   checkbox.addEventListener("click", (e) => {
-    e.target.parentElement.classList.toggle("text-transform");
+    e.target.parentElement.parentElement.classList.toggle("text-transform");
   });
 };
 
 const removeListener = (lastToDoItem) => {
   const removeBtn = lastToDoItem.querySelector("button");
   removeBtn.addEventListener("click", (e) => {
-    const id = e.target.parentElement.getAttribute("data-id");
+    const id = e.target.parentElement.parentElement.getAttribute("data-id");
     const index = toDoListArr.findIndex((elem, index) => {
       return elem.id.toString() === id;
     });
     toDoListArr.splice(index, 1);
-    e.target.parentElement.remove();
+    e.target.parentElement.parentElement.remove();
     localStorage.setItem("todoList", JSON.stringify(toDoListArr));
   });
 };

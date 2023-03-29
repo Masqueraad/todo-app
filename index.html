@@ -5,13 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css"
+      integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <title>Todo app</title>
   </head>
-  <body>
-    <h1>hello</h1>
-    <input id="todo-input" type="text" />
-    <button id="submit-todo">Submit</button>
-    <ul id="todo-list"></ul>
+  <body class="container">
+    <h1 class="text-center">ToDo App</h1>
+    <div class="d-flex mb-3">
+      <input class="form-control" id="todo-input" type="text" />
+      <button class="btn btn-primary" id="submit-todo">Submit</button>
+    </div>
+    <ul class="list-group" id="todo-list"></ul>
     <script src="script.js"></script>
   </body>
 </html>
