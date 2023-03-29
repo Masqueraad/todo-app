@@ -1,28 +1,60 @@
 const input = document.querySelector("#todo-input");
 const submitToDo = document.querySelector("#submit-todo");
 const toDoList = document.querySelector("#todo-list");
-const toDoListArr = [];
+const toDoListArr = JSON.parse(localStorage.getItem("todoList")) || [];
+
+const createLi = (obj) => {
+  const li = document.createElement("li");
+  li.setAttribute("data-id", obj.id);
+
+  li.innerHTML = ` 
+   ${obj.text}  <input class="checkbox" type="checkbox">  <button class="remove">Remove</button>
+    `;
+  console.log(obj);
+  toDoList.append(li);
+};
+
+const checkListener = (lastToDoItem) => {
+  const checkbox = lastToDoItem.querySelector(".checkbox");
+  checkbox.addEventListener("click", (e) => {
+    e.target.parentElement.classList.toggle("text-transform");
+  });
+};
+
+const removeListener = (lastToDoItem) => {
+  const removeBtn = lastToDoItem.querySelector("button");
+  removeBtn.addEventListener("click", (e) => {
+    const id = e.target.parentElement.getAttribute("data-id");
+    const index = toDoListArr.findIndex((elem, index) => {
+      return elem.id.toString() === id;
+    });
+    toDoListArr.splice(index, 1);
+    e.target.parentElement.remove();
+    localStorage.setItem("todoList", JSON.stringify(toDoListArr));
+  });
+};
+
+const generateLiWithListeners = () => {
+  const toDoListElements = toDoList.querySelectorAll("li");
+  const lastToDoItem = toDoListElements[toDoListElements.length - 1];
+  checkListener(lastToDoItem);
+  removeListener(lastToDoItem);
+};
 
 submitToDo.addEventListener("click", (e) => {
   if (input.value.length !== 0) {
-    const li = document.createElement("li");
-    li.innerHTML = ` 
-    ${input.value}  <input class="checkbox" type="checkbox">  <button class="remove">Remove</button>
-     `;
-    toDoList.append(li);
+    toDoListArr.push({
+      text: input.value,
+      id: toDoListArr.length ? toDoListArr[toDoListArr.length - 1].id + 1 : 1,
+    });
+    createLi(toDoListArr[toDoListArr.length - 1]);
+    generateLiWithListeners();
+    localStorage.setItem("todoList", JSON.stringify(toDoListArr));
     input.value = "";
-    const toDoListElements = toDoList.querySelectorAll("li");
-    const lastToDoItem = toDoListElements[toDoListElements.length - 1];
-
-    const checkbox = lastToDoItem.querySelector(".checkbox");
-    checkbox.addEventListener("click", (e) => {
-      e.target.parentElement.classList.toggle("text-transform");
-    });
-
-    const removeBtn = lastToDoItem.querySelector("button");
-    removeBtn.addEventListener("click", (e) => {
-      console.log(e.target.parentElement);
-      e.target.parentElement.remove();
-    });
   }
+});
+
+toDoListArr.forEach((elem) => {
+  createLi(elem);
+  generateLiWithListeners();
 });
