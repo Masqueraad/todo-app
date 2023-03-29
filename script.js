@@ -8,7 +8,7 @@ const createLi = (obj) => {
   li.setAttribute("data-id", obj.id);
   li.setAttribute("class", "list-group-item");
   li.innerHTML = ` 
-   ${obj.text} 
+   <span>${obj.text}</span>
    <div class="d-flex align-items-center">
    <input class="checkbox form-check-input mx-2" type="checkbox" />
    <button class="remove btn btn-danger">Remove</button>
@@ -21,7 +21,9 @@ const createLi = (obj) => {
 const checkListener = (lastToDoItem) => {
   const checkbox = lastToDoItem.querySelector(".checkbox");
   checkbox.addEventListener("click", (e) => {
-    e.target.parentElement.parentElement.classList.toggle("text-transform");
+    const li = e.target.closest("li");
+    const span = li.querySelector("span");
+    span.classList.toggle("text-transform");
   });
 };
 
